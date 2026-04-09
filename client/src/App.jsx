@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './layouts/Navbar';
 import Home from './pages/Home';
+import Doctors from './pages/Doctors'; // <-- Add this import
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* We will add more routes here like /login and /doctors later */}
+          <Route path="/doctors" element={<Doctors />} /> {/* <-- Add this route */}
         </Routes>
       </div>
     </Router>
