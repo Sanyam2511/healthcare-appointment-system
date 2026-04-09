@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  /* This maps directly to text-brand-yellow, bg-brand-blue, etc. */
+  --color-brand-yellow: #FDE68A;
+  --color-brand-blue: #BFDBFE;
+  --color-brand-dark: #1F2937;
+  
+  /* Overrides the default sans font */
+  --font-sans: "Inter", sans-serif;
+}
