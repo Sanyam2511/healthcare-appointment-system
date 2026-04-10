@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { X, Calendar as CalendarIcon, Clock, AlertCircle } from 'lucide-react';
+import { X, Calendar as CalendarIcon, Clock, AlertCircle, CheckCircle } from 'lucide-react';
 import Button from './Button';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
@@ -13,6 +13,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
   const [reason, setReason] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Pull the logged-in user from global state
   const { user } = useContext(AuthContext);
@@ -22,12 +23,6 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("1. Button was clicked!");
-    console.log("2. Is User Logged In?", user);
-    console.log("3. Sending Data:", { doctorId: doctor._id, selectedDate, selectedTime, reason });
-    
-    // Check if user is logged in first!
     if (!user) {
       navigate('/login');
       return;
@@ -37,14 +32,12 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
     setError(null);
 
     try {
-      // We must attach the token to the request headers for security
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
 
-      // The data we are sending to the backend
       const appointmentData = {
         doctorId: doctor._id, // Using the real MongoDB ID
         date: selectedDate,
@@ -54,13 +47,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
 
       await axios.post('/api/appointments', appointmentData, config);
       
-      alert(`Success! Appointment requested with ${doctor.user?.name}!`);
-      
-      // Reset form and close modal
-      setSelectedDate('');
-      setSelectedTime('');
-      setReason('');
-      onClose();
+      setIsSuccess(true);
 
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to book appointment');
@@ -69,16 +56,39 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
     }
   };
 
+  const handleCloseModal = () => {
+    setSelectedDate('');
+    setSelectedTime('');
+    setReason('');
+    setIsSuccess(false); // Reset success state
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-brand-dark/20 backdrop-blur-sm" onClick={onClose}></div>
 
-      <div className="bg-white rounded-3xl w-full max-w-lg p-6 md:p-8 relative z-10 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-        
-        <button onClick={onClose} className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-brand-dark transition-colors">
+        <div className="bg-white rounded-3xl w-full max-w-lg p-6 md:p-8 relative z-10 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <button onClick={handleCloseModal} className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-brand-dark transition-colors">
           <X size={18} />
         </button>
 
+        {isSuccess ? (
+          /* --- THE NEW SUCCESS SCREEN --- */
+          <div className="text-center py-8">
+            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 animate-in zoom-in duration-500">
+              <CheckCircle size={40} />
+            </div>
+            <h2 className="text-3xl font-bold text-brand-dark mb-2">Booking Confirmed!</h2>
+            <p className="text-gray-500 mb-8 max-w-sm mx-auto">
+              Your appointment with {doctor?.user?.name} has been successfully scheduled. You can manage it in your Dashboard.
+            </p>
+            <Button onClick={handleCloseModal} variant="primary" className="w-full py-4 text-lg rounded-2xl">
+              Done
+            </Button>
+          </div>
+        ) : (
+        <>
         <h2 className="text-2xl font-bold text-brand-dark mb-1">Book Appointment</h2>
         <p className="text-sm text-gray-500 mb-6 font-medium">with {doctor?.user?.name} • {doctor?.specialty}</p>
 
@@ -145,6 +155,8 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
             </Button>
           </div>
         </form>
+        </>
+        )}
       </div>
     </div>
   );
