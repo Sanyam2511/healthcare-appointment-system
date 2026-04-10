@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, Plus, Loader2 } from 'lucide-react';
+import { ArrowRight, Search, Plus, Loader2, Star } from 'lucide-react';
 import Button from '../components/Button';
 import BookingModal from '../components/BookingModal';
 import axios from 'axios';
@@ -115,6 +115,13 @@ const Doctors = () => {
                   <h3 className="text-2xl font-bold text-brand-dark leading-tight mb-2">
                     {doc.user?.name || 'Doctor'}
                   </h3>
+                  <div className="flex items-center gap-1 text-brand-dark font-bold mb-2">
+                    <Star size={16} className="fill-brand-yellow text-brand-yellow" />
+                    {doc.averageRating > 0 ? doc.averageRating : "New"} 
+                    <span className="text-gray-400 font-normal text-sm ml-1">
+                      ({doc.reviewCount || 0} reviews)
+                    </span>
+                  </div>
                   <p className="text-sm text-gray-500 mb-6 font-medium">
                     {doc.experience} yrs experience • ${doc.consultationFee}/consultation
                   </p>

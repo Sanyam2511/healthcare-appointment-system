@@ -1,5 +1,7 @@
 const Doctor = require('../models/Doctor');
 const User = require('../models/User');
+const Review = require('../models/Review');
+const mongoose = require('mongoose');
 
 // @desc    Get all doctors
 // @route   GET /api/doctors
@@ -73,6 +75,49 @@ exports.createProfile = async (req, res) => {
 
     res.status(201).json({ success: true, data: doctor });
   } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Add a review for a doctor
+// @route   POST /api/doctors/:id/reviews
+// @access  Private
+exports.addReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const doctorId = req.params.id;
+
+    // 1. Create the review
+    const review = await Review.create({
+      doctor: doctorId,
+      patient: req.user.id,
+      rating,
+      comment
+    });
+
+    // 2. Calculate new average rating for the doctor
+    const stats = await Review.aggregate([
+      { $match: { doctor: new mongoose.Types.ObjectId(doctorId) } },
+      {
+        $group: {
+          _id: '$doctor',
+          nRating: { $sum: 1 },
+          avgRating: { $avg: '$rating' }
+        }
+      }
+    ]);
+
+    // 3. Update the Doctor document
+    await Doctor.findByIdAndUpdate(doctorId, {
+      averageRating: stats[0].avgRating.toFixed(1),
+      reviewCount: stats[0].nRating
+    });
+
+    res.status(201).json({ success: true, data: review });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'You have already reviewed this doctor.' });
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 };

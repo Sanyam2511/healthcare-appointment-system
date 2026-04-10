@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Activity, Loader2, X, AlertTriangle } from 'lucide-react';
 import Button from '../components/Button';
+import ReviewModal from '../components/ReviewModal';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -16,6 +17,9 @@ const Dashboard = () => {
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
+
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [appointmentToReview, setAppointmentToReview] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -166,6 +170,27 @@ const Dashboard = () => {
                   <div className="mt-6 pt-4 border-t border-gray-100 text-sm text-gray-500 line-clamp-2 bg-gray-50 p-3 rounded-xl">
                     <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}
                   </div>
+
+                  <Button 
+                    variant="outline" 
+                    className="w-full mt-4 justify-center py-2"
+                    onClick={() => {
+                      setAppointmentToReview(apt);
+                      setReviewModalOpen(true);
+                    }}
+                  >
+                    Rate your experience
+                  </Button>
+
+                  {apt.status === 'completed' && (
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 w-full text-sm border-brand-blue text-brand-blue"
+                    onClick={() => handleOpenReviewModal(apt.doctor._id)}
+                  >
+                    Rate your experience
+                  </Button>
+                )}
                 </div>
               ))}
             </div>
@@ -173,6 +198,11 @@ const Dashboard = () => {
 
         </div>
       </div>
+      <ReviewModal 
+        isOpen={reviewModalOpen}
+        onClose={() => setReviewModalOpen(false)}
+        appointment={appointmentToReview}
+      />
     </div>
   );
 };

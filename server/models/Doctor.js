@@ -8,7 +8,7 @@ const doctorSchema = new mongoose.Schema({
   },
   specialty: {
     type: String,
-    required: [true, 'Please add a specialty (e.g., General, Dermatologist, Nutritionist)']
+    required: [true, 'Please add a specialty']
   },
   experience: {
     type: Number,
@@ -24,13 +24,22 @@ const doctorSchema = new mongoose.Schema({
         type: String, 
         enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] 
       },
-      startTime: String, // e.g., "09:00"
-      endTime: String    // e.g., "17:00"
+      startTime: String, 
+      endTime: String    
     }
   ],
   isAcceptingNewPatients: {
     type: Boolean,
     default: true
+  },
+  // --- NEW FIELDS FOR REVIEWS ---
+  averageRating: {
+    type: Number,
+    default: 0
+  },
+  reviewCount: {
+    type: Number,
+    default: 0
   }
 }, { timestamps: true });
 
