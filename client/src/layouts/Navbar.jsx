@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
-import { User, Menu } from 'lucide-react';
+import { User, Menu, Activity} from 'lucide-react';
 import Button from '../components/Button';
 
 const Navbar = () => {
   return (
     <nav className="w-full bg-white py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
-      <Link to="/" className="text-xl font-bold tracking-tight text-brand-dark flex items-center gap-2">
-        <div className="w-6 h-6 bg-brand-dark rounded-full"></div>
+      <Link to="/" className="text-xl font-bold tracking-tight text-brand-dark flex items-center gap-2 group">
+        {/* Replaced the black circle with a styled icon */}
+        <div className="bg-brand-blue/20 p-1.5 rounded-xl text-brand-blue group-hover:scale-110 transition-transform duration-300">
+          <Activity size={22} strokeWidth={2.5} />
+        </div>
         CareConnect
       </Link>
 
