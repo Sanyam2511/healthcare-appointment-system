@@ -48,3 +48,31 @@ exports.seedDoctors = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Create or update doctor profile
+// @route   POST /api/doctors/profile
+// @access  Private
+exports.createProfile = async (req, res) => {
+  try {
+    const { specialty, experience, consultationFee } = req.body;
+
+    // 1. Check if they already have a profile
+    let doctor = await Doctor.findOne({ user: req.user.id });
+
+    if (doctor) {
+      return res.status(400).json({ message: 'Profile already exists.' });
+    }
+
+    // 2. Create the new linked profile
+    doctor = await Doctor.create({
+      user: req.user.id, // Linking it to the logged-in user!
+      specialty,
+      experience,
+      consultationFee
+    });
+
+    res.status(201).json({ success: true, data: doctor });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

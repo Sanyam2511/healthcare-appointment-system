@@ -27,7 +27,7 @@ const Navbar = () => {
         {user ? (
           <>
             <span className="text-sm font-medium text-gray-500 mr-2">Hello, {user.name}</span>
-            <Link to="/dashboard">
+            <Link to={user.role === 'doctor' ? "/doctor-dashboard" : "/dashboard"}>
               <Button variant="outline" className="text-sm py-2">
                 <UserIcon size={16} /> Dashboard
               </Button>

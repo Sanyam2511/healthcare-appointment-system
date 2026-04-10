@@ -9,6 +9,7 @@ import Specialties from './pages/Specialties';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import DoctorDashboard from './pages/DoctorDashboard';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
           </Routes>
         </div>
       </AuthProvider>
