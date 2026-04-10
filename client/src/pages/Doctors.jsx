@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowRight, Search, Plus } from 'lucide-react';
 import Button from '../components/Button';
+import BookingModal from '../components/BookingModal';
 
-// Mock data to build the UI before connecting to the backend
 const MOCK_DOCTORS = [
   { id: 1, name: 'Dr. Sarah Jenkins', specialty: 'Cardiology', experience: '12 yrs', fee: '$80', color: 'bg-brand-blue' },
   { id: 2, name: 'Dr. Marcus Chen', specialty: 'Dermatology', experience: '8 yrs', fee: '$60', color: 'bg-brand-yellow' },
@@ -14,6 +14,8 @@ const CATEGORIES = ['All', 'Cardiology', 'Dermatology', 'General Practice', 'Ped
 
 const Doctors = () => {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const filteredDoctors = activeCategory === 'All' 
     ? MOCK_DOCTORS 
@@ -92,8 +94,14 @@ const Doctors = () => {
                   {doc.experience} experience • {doc.fee}/consultation
                 </p>
                 
-                {/* Full Width Bottom Button (Mimicking "Build your own monthly pack") */}
-                <Button variant="primary" className="w-full justify-between px-6 py-4 rounded-2xl group-hover:bg-brand-blue group-hover:text-brand-dark">
+                <Button 
+                  onClick={() => {
+                    setSelectedDoctor(doc);
+                    setIsModalOpen(true);
+                  }}
+                  variant="primary" 
+                  className="w-full justify-between px-6 py-4 rounded-2xl group-hover:bg-brand-blue group-hover:text-brand-dark"
+                >
                   Book appointment
                   <ArrowRight size={18} />
                 </Button>
@@ -103,6 +111,11 @@ const Doctors = () => {
 
         </div>
       </div>
+      <BookingModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        doctor={selectedDoctor} 
+      />
     </div>
   );
 };
