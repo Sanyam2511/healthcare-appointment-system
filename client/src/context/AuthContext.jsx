@@ -41,6 +41,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Add this right below the registerUser function
+  const loginUser = async (userData) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post('/api/auth/login', userData);
+      
+      const { token, user } = response.data;
+      const sessionData = { token, ...user };
+
+      setUser(sessionData);
+      localStorage.setItem('user', JSON.stringify(sessionData));
+      
+      navigate('/'); 
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Logout Function
   const logout = () => {
     setUser(null);
@@ -49,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, registerUser, logout }}>
+    <AuthContext.Provider value={{ user, loading, error, registerUser, loginUser, logout }}> {/* <-- Added loginUser here */}
       {children}
     </AuthContext.Provider>
   );

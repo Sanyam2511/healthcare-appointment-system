@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import Button from '../components/Button';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  
+  // Pull our global logic from Context
+  const { loginUser, loading, error } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    loginUser(formData);
   };
 
   return (
@@ -18,6 +22,13 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-brand-dark mb-2">Welcome back</h1>
           <p className="text-gray-500">Enter your details to access your account.</p>
         </div>
+
+        {/* Display Errors if they exist */}
+        {error && (
+          <div className="bg-red-50 text-red-500 p-4 rounded-2xl mb-6 flex items-center gap-2 text-sm font-medium">
+            <AlertCircle size={18} /> {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="relative">
@@ -46,9 +57,9 @@ const Login = () => {
             />
           </div>
 
-          <Button type="submit" variant="primary" className="w-full py-4 rounded-2xl text-lg mt-4 group">
-            Sign In
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          <Button type="submit" variant="primary" className="w-full py-4 rounded-2xl text-lg mt-4 group" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
+            {!loading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
           </Button>
         </form>
 

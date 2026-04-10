@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'; // <-- Added useContext
 import { Link } from 'react-router-dom';
-import { User, Mail, Lock, ArrowRight } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'; // <-- Added AlertCircle
 import Button from '../components/Button';
+import { AuthContext } from '../context/AuthContext'; // <-- Added this import
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'patient' });
+  
+  // Pull our global logic from Context
+  const { registerUser, loading, error } = useContext(AuthContext); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Register attempt:', formData);
+    // Pass the form data directly to the backend via our Context function
+    registerUser(formData); 
   };
 
   return (
@@ -18,6 +23,12 @@ const Register = () => {
           <h1 className="text-3xl font-bold text-brand-dark mb-2">Join CareConnect</h1>
           <p className="text-gray-500">Create an account to simplify your health.</p>
         </div>
+
+        {error && (
+          <div className="bg-red-50 text-red-500 p-4 rounded-2xl mb-6 flex items-center gap-2 text-sm font-medium">
+            <AlertCircle size={18} /> {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           
@@ -60,9 +71,9 @@ const Register = () => {
             <input type="password" placeholder="Create Password" minLength="6" required className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl text-brand-dark focus:ring-2 focus:ring-brand-blue outline-none" onChange={(e) => setFormData({...formData, password: e.target.value})} />
           </div>
 
-          <Button type="submit" variant="primary" className="w-full py-4 rounded-2xl text-lg mt-6 group">
-            Create Account
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          <Button type="submit" variant="primary" className="w-full py-4 rounded-2xl text-lg mt-6 group" disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create Account'}
+            {!loading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
           </Button>
         </form>
 

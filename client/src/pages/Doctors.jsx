@@ -1,30 +1,51 @@
-import React, { useState } from 'react';
-import { ArrowRight, Search, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Search, Plus, Loader2 } from 'lucide-react';
 import Button from '../components/Button';
 import BookingModal from '../components/BookingModal';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-const MOCK_DOCTORS = [
-  { id: 1, name: 'Dr. Sarah Jenkins', specialty: 'Cardiology', experience: '12 yrs', fee: '$80', color: 'bg-brand-blue' },
-  { id: 2, name: 'Dr. Marcus Chen', specialty: 'Dermatology', experience: '8 yrs', fee: '$60', color: 'bg-brand-yellow' },
-  { id: 3, name: 'Dr. Emily Carter', specialty: 'General Practice', experience: '15 yrs', fee: '$50', color: 'bg-green-100' },
-  { id: 4, name: 'Dr. James Wilson', specialty: 'Pediatrics', experience: '10 yrs', fee: '$70', color: 'bg-purple-100' },
-];
-
-const CATEGORIES = ['All', 'Cardiology', 'Dermatology', 'General Practice', 'Pediatrics'];
+const CATEGORIES = ['All', 'Cardiology', 'Dermatology', 'General Practice', 'Pediatrics', 'Neurology', 'Orthopedics'];
 
 const Doctors = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
+  // Check if we came from the Specialties page with a pre-selected category
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialSpecialty = queryParams.get('specialty') || 'All';
+
+  const [activeCategory, setActiveCategory] = useState(initialSpecialty);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  
+  // New State for REAL database data
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch real doctors from your backend on component mount
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get('/api/doctors');
+        setDoctors(response.data.data);
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  // Filter against the real state array
   const filteredDoctors = activeCategory === 'All' 
-    ? MOCK_DOCTORS 
-    : MOCK_DOCTORS.filter(doc => doc.specialty === activeCategory);
+    ? doctors 
+    : doctors.filter(doc => doc.specialty === activeCategory);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       
-      {/* Header Section (Mimicking the top half of the Product Library) */}
+      {/* Header Section */}
       <div className="bg-white pt-12 pb-6 px-6 md:px-12 border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-brand-dark mb-4">
@@ -46,7 +67,7 @@ const Doctors = () => {
             />
           </div>
 
-          {/* Category Pills (Mimicking "Minerals / Vitamins") */}
+          {/* Category Pills */}
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {CATEGORIES.map(category => (
               <button
@@ -65,52 +86,59 @@ const Doctors = () => {
         </div>
       </div>
 
-      {/* Grid Section (Mimicking the Calcium Plus D3 Cards) */}
+      {/* Grid Section - Now rendering REAL data */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
-          {filteredDoctors.map((doc) => (
-            <div key={doc.id} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col h-full relative group">
-              
-              {/* Top Card Navigation */}
-              <div className="flex justify-between items-start mb-12">
-                <div className="border border-gray-200 rounded-full px-4 py-1 flex items-center gap-2">
-                  <span className="text-xs font-semibold text-gray-700">{doc.specialty}</span>
-                </div>
-                <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-brand-dark hover:border-brand-dark transition-colors">
-                  <Plus size={16} />
-                </button>
-              </div>
-
-              {/* Decorative Visual Element (Replacing the pill bottle image) */}
-              <div className={`absolute top-24 right-6 w-20 h-20 rounded-full ${doc.color} opacity-20 -z-0 group-hover:scale-110 transition-transform duration-500`}></div>
-
-              {/* Doctor Details */}
-              <div className="z-10 mt-auto">
-                <h3 className="text-2xl font-bold text-brand-dark leading-tight mb-2">
-                  {doc.name}
-                </h3>
-                <p className="text-sm text-gray-500 mb-6 font-medium">
-                  {doc.experience} experience • {doc.fee}/consultation
-                </p>
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="animate-spin text-brand-blue" size={48} />
+          </div>
+        ) : filteredDoctors.length === 0 ? (
+          <div className="text-center py-20 text-gray-500">No doctors found for this specialty.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {filteredDoctors.map((doc) => (
+              <div key={doc._id} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col h-full relative group">
                 
-                <Button 
-                  onClick={() => {
-                    setSelectedDoctor(doc);
-                    setIsModalOpen(true);
-                  }}
-                  variant="primary" 
-                  className="w-full justify-between px-6 py-4 rounded-2xl group-hover:bg-brand-blue group-hover:text-brand-dark"
-                >
-                  Book appointment
-                  <ArrowRight size={18} />
-                </Button>
-              </div>
-            </div>
-          ))}
+                {/* Top Card Navigation */}
+                <div className="flex justify-between items-start mb-12">
+                  <div className="border border-gray-200 rounded-full px-4 py-1 flex items-center gap-2 z-10 bg-white">
+                    <span className="text-xs font-semibold text-gray-700">{doc.specialty}</span>
+                  </div>
+                </div>
 
-        </div>
+                {/* Decorative Visual Element */}
+                <div className="absolute top-24 right-6 w-20 h-20 rounded-full bg-brand-blue opacity-10 -z-0 group-hover:scale-110 transition-transform duration-500"></div>
+
+                {/* Doctor Details from MongoDB */}
+                <div className="z-10 mt-auto">
+                  <h3 className="text-2xl font-bold text-brand-dark leading-tight mb-2">
+                    {doc.user?.name || 'Doctor'}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-6 font-medium">
+                    {doc.experience} yrs experience • ${doc.consultationFee}/consultation
+                  </p>
+                  
+                  <Button 
+                    onClick={() => {
+                      setSelectedDoctor(doc);
+                      setIsModalOpen(true);
+                    }}
+                    variant="primary" 
+                    className="w-full justify-between px-6 py-4 rounded-2xl group-hover:bg-brand-blue group-hover:text-brand-dark transition-colors"
+                  >
+                    Book appointment
+                    <ArrowRight size={18} />
+                  </Button>
+                </div>
+              </div>
+            ))}
+
+          </div>
+        )}
       </div>
+      
+      {/* Booking Modal */}
       <BookingModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
