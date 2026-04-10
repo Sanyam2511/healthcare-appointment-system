@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext'; // <-- Add this import
+import { AuthProvider } from './context/AuthContext';
 
+import Dashboard from './pages/Dashboard';
 import Navbar from './layouts/Navbar';
 import Home from './pages/Home';
 import Doctors from './pages/Doctors';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </AuthProvider>
