@@ -1,96 +1,193 @@
 import React from 'react';
-import { Shield, Heart, Activity, ArrowRight, CheckCircle2 } from 'lucide-react';
-import Button from '../components/Button';
+import { ArrowUpRight, Shield, Activity, CheckCircle2, Star, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
-    <div className="bg-[#F8F9FA] pb-24">
+    <div className="bg-white pb-24 font-sans text-brand-dark">
       
       {/* SECTION 1: Hero */}
-      <section className="px-6 md:px-12 py-20 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-blue/20 text-brand-blue font-semibold text-sm mb-6">
-          <Heart size={16} fill="currentColor" /> Our Mission
-        </div>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-brand-dark leading-[1.1] mb-8">
-          Putting your <span className="text-brand-blue">health</span> back in your hands.
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          We built CareConnect because we believe accessing quality healthcare should be as seamless as ordering your morning coffee. No waiting rooms, no endless phone calls. Just you and your health, simplified.
-        </p>
-      </section>
-
-      {/* SECTION 2: Image / Graphic Area (Using CSS shapes to match our theme) */}
-      <section className="px-6 md:px-12 mb-24">
-        <div className="max-w-7xl mx-auto relative h-[400px] md:h-[500px] rounded-[3rem] bg-brand-dark overflow-hidden flex items-center justify-center">
-          {/* Abstract floating shapes */}
-          <div className="absolute top-10 left-10 w-64 h-64 bg-brand-blue rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-          <div className="absolute top-10 right-10 w-64 h-64 bg-brand-yellow rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/2 w-64 h-64 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-          
-          <div className="relative z-10 text-center px-4">
-            <h2 className="text-4xl font-bold text-white mb-4">Healthcare for the modern age.</h2>
-            <p className="text-gray-300 max-w-lg mx-auto">Built by a team of technologists and medical professionals dedicated to bridging the gap between patients and care.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: Core Values */}
-      <section className="px-6 md:px-12 max-w-7xl mx-auto mb-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-2xl bg-brand-blue flex items-center justify-center text-white mb-6">
-              <Shield size={32} />
-            </div>
-            <h3 className="text-2xl font-bold text-brand-dark mb-4">Uncompromising Trust</h3>
-            <p className="text-gray-500 leading-relaxed">
-              Your medical data is yours. We use enterprise-grade encryption to ensure your personal health information remains strictly confidential and secure.
-            </p>
-          </div>
-
-          <div className="bg-brand-yellow p-10 rounded-[2.5rem] shadow-sm hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-brand-dark mb-6">
-              <Activity size={32} />
-            </div>
-            <h3 className="text-2xl font-bold text-brand-dark mb-4">Frictionless Access</h3>
-            <p className="text-gray-800 leading-relaxed">
-              Whether you need a specialist at 2 AM or a routine checkup next week, our platform connects you instantly with the right professionals.
-            </p>
-          </div>
-
-          <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center text-green-600 mb-6">
-              <CheckCircle2 size={32} />
-            </div>
-            <h3 className="text-2xl font-bold text-brand-dark mb-4">Vetted Professionals</h3>
-            <p className="text-gray-500 leading-relaxed">
-              Every doctor on our platform goes through a rigorous background check and verification process. You only see the best.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 4: CTA */}
-      <section className="px-6 md:px-12">
-        <div className="max-w-4xl mx-auto bg-brand-blue p-12 md:p-16 rounded-[3rem] text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-brand-dark mb-6">Ready to prioritize your health?</h2>
-          <p className="text-brand-dark/70 mb-10 max-w-xl mx-auto">
-            Join thousands of patients who have simplified their medical journey with CareConnect.
+      <section className="px-6 md:px-12 pt-12 pb-20 max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16">
+        
+        {/* Left: Typography */}
+        <div className="w-full lg:w-1/2 z-10">
+          <h1 className="text-6xl md:text-[5.5rem] font-medium tracking-tight text-brand-dark leading-[1.05] mb-8">
+            Putting your <br />
+            <span className="font-serif italic font-light text-brand-blue">health</span> back <br />
+            in your hands.
+          </h1>
+          <p className="text-lg text-gray-500 max-w-md leading-relaxed mb-10">
+            We built CareConnect because we believe accessing quality healthcare should be as seamless as ordering your morning coffee. No waiting rooms, no endless phone calls. Just you and your health, simplified.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/register">
-              <Button variant="primary" className="px-8 py-4 rounded-full text-lg w-full sm:w-auto">
-                Create an account
-              </Button>
-            </Link>
-            <Link to="/doctors">
-              <Button variant="outline" className="px-8 py-4 rounded-full text-lg bg-white w-full sm:w-auto border-transparent hover:border-brand-dark">
-                Browse Doctors
-              </Button>
-            </Link>
+          <Link 
+            to="/register" 
+            className="inline-flex items-center gap-3 bg-[#1A252A] text-white px-8 py-4 rounded-full hover:bg-brand-blue transition-colors duration-300 font-medium group"
+          >
+            Join CareConnect
+            <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+
+          {/* Trusted By / Faint Logos Row */}
+          <div className="flex items-center gap-6 mt-20 opacity-40 grayscale pointer-events-none">
+            <span className="text-xl font-bold font-serif">Aetna</span>
+            <span className="text-xl font-bold tracking-tighter">Cigna</span>
+            <span className="text-xl font-bold flex items-center gap-1"><Plus size={20}/> UnitedHealth</span>
+            <span className="text-xl font-bold tracking-widest">Kaiser</span>
           </div>
+        </div>
+
+        {/* Right: Large Hero Image Area */}
+        <div className="w-full lg:w-1/2 relative h-[600px] md:h-[700px] rounded-[2.5rem] bg-gray-100 overflow-hidden flex items-center justify-center">
+          <img 
+            src="/doctor1.png" 
+            alt="Medical professional smiling" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+
+          {/* Optional: A subtle gradient overlay to ensure the floating card text remains readable if the image is bright */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+
+          {/* Glassmorphism Floating Card */}
+          <div className="absolute top-1/4 -left-6 md:left-[-2rem] bg-white/70 backdrop-blur-md border border-white/50 p-5 rounded-2xl shadow-xl w-64 transform -rotate-2">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+              </div>
+              <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider ml-2">CareConnect Platform</span>
+            </div>
+            <h3 className="font-serif italic text-2xl text-brand-dark mb-1">Frictionless</h3>
+            <h3 className="font-medium text-xl text-brand-dark mb-4">Scheduling</h3>
+            <div className="flex justify-between text-xs text-gray-500 font-medium border-t border-gray-200/50 pt-3 mt-2">
+              <span>Availability</span>
+              <span className="text-brand-dark">24/7 Access</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: The Magazine Statement Area */}
+      <section className="px-6 md:px-12 pt-20 pb-32 max-w-[1400px] mx-auto">
+        
+        {/* Section Divider / Label */}
+        <div className="flex justify-between items-center border-t border-gray-200 pt-6 mb-16 text-sm font-medium text-brand-dark">
+          <span>About Us</span>
+          <span>(01)</span>
+        </div>
+
+        {/* The Massive Centered Text with Floating Images */}
+        <div className="relative max-w-5xl mx-auto text-center py-12 md:py-24">
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-[#1A252A] leading-[1.2] tracking-tight relative z-10">
+            Healthcare for the modern age — <br className="hidden md:block"/>
+            built by technologists and medical professionals dedicated to bridging the gap between <span className="font-serif italic font-light text-brand-blue">patients and care.</span>
+          </h2>
+
+          {/* Floating Image 1 (Left) */}
+          {/* Ensure an image named 'clinic-team.jpg' exists in your public folder */}
+          <div className="hidden md:flex absolute top-0 left-[-5%] w-48 h-48 bg-gray-200 rounded-3xl shadow-lg -rotate-6 items-center justify-center overflow-hidden z-0">
+             <img 
+               src="/doctor2.png" 
+               alt="Healthcare team" 
+               className="w-full h-full object-cover"
+             />
+          </div>
+
+          {/* Floating Image 2 (Right/Bottom) */}
+          {/* Ensure an image named 'patient-care.jpg' exists in your public folder */}
+          <div className="hidden md:flex absolute -bottom-24 right-0 w-64 h-48 bg-gray-200 rounded-3xl shadow-lg rotate-3 items-center justify-center overflow-hidden z-20">
+             <div className="absolute top-6 -left-6 w-24 h-24 border-[1px] border-dashed border-white/50 rounded-full flex items-center justify-center bg-brand-blue/90 backdrop-blur-sm z-30">
+               <div className="text-[10px] uppercase tracking-widest text-white font-bold rotate-[-30deg]">Verified</div>
+             </div>
+             <img 
+               src="/doctor3.png" 
+               alt="Patient consultation" 
+               className="w-full h-full object-cover"
+             />
+          </div>
+
+        </div>
+
+        {/* Stats Row */}
+        <div className="flex flex-col md:flex-row justify-between items-end mt-12 gap-8 relative z-10">
+          
+          <div className="flex gap-12 md:gap-20">
+            <div>
+              <p className="text-sm text-gray-500 font-medium mb-2">Trusted by Thousands</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-5xl font-light text-brand-dark">98</span>
+                <span className="text-2xl text-brand-blue">%</span>
+              </div>
+              <p className="text-m text-gray-500 mt-1">Satisfaction</p>
+            </div>
+            
+            <div>
+               <p className="text-m text-gray-500 font-medium mb-2 uppercase text-transparent select-none">.</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-5xl font-light text-brand-dark">5,000</span>
+                <span className="text-2xl text-brand-blue">+</span>
+              </div>
+              <p className="text-m text-gray-500 mt-1">Appointments Booked</p>
+            </div>
+
+            <div>
+              <p className="text-m text-gray-500 font-medium mb-2 uppercase text-transparent select-none">.</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-5xl font-light text-brand-dark">4.9</span>
+                <Star className="text-brand-yellow fill-brand-yellow mb-1" size={20} />
+              </div>
+              <p className="text-m text-gray-500 mt-1">Platform Rating</p>
+            </div>
+          </div>
+
+          <Link to="/doctors" className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-colors duration-300">
+            <ArrowUpRight size={24} />
+          </Link>
+          
+        </div>
+      </section>
+
+      {/* SECTION 3: Core Values Grid */}
+      <section className="px-6 md:px-12 pb-24 max-w-[1400px] mx-auto">
+        
+        <div className="flex justify-between items-center border-t border-gray-200 pt-6 mb-16 text-m font-medium text-brand-dark">
+          <span>Our Values</span>
+          <span>(02)</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          
+          <div className="group">
+            <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-brand-dark mb-6 group-hover:bg-brand-blue group-hover:text-white transition-colors duration-300">
+              <Shield size={20} />
+            </div>
+            <h3 className="text-2xl font-medium text-brand-dark mb-4">Uncompromising Trust</h3>
+            <p className="text-gray-500 leading-relaxed font-light">
+              Your medical data is yours. We use enterprise-grade encryption to ensure your personal health information remains strictly confidential and secure at all times.
+            </p>
+          </div>
+
+          <div className="group">
+            <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-brand-dark mb-6 group-hover:bg-brand-blue group-hover:text-white transition-colors duration-300">
+              <Activity size={20} />
+            </div>
+            <h3 className="text-2xl font-medium text-brand-dark mb-4">Frictionless Access</h3>
+            <p className="text-gray-500 leading-relaxed font-light">
+              Whether you need a specialist at 2 AM or a routine checkup next week, our platform connects you instantly with the right professionals without the red tape.
+            </p>
+          </div>
+
+          <div className="group">
+            <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-brand-dark mb-6 group-hover:bg-brand-blue group-hover:text-white transition-colors duration-300">
+              <CheckCircle2 size={20} />
+            </div>
+            <h3 className="text-2xl font-medium text-brand-dark mb-4">Vetted Professionals</h3>
+            <p className="text-gray-500 leading-relaxed font-light">
+              Every doctor on our platform goes through a rigorous background check and credential verification process. You only see the best healthcare providers available.
+            </p>
+          </div>
+
         </div>
       </section>
 

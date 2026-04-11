@@ -56,21 +56,22 @@ exports.seedDoctors = async (req, res) => {
 // @access  Private
 exports.createProfile = async (req, res) => {
   try {
-    const { specialty, experience, consultationFee } = req.body;
+    // 1. Add clinicAddress to the destructured body
+    const { specialty, experience, consultationFee, clinicAddress } = req.body;
 
-    // 1. Check if they already have a profile
     let doctor = await Doctor.findOne({ user: req.user.id });
 
     if (doctor) {
       return res.status(400).json({ message: 'Profile already exists.' });
     }
 
-    // 2. Create the new linked profile
+    // 2. Add it to the creation payload
     doctor = await Doctor.create({
-      user: req.user.id, // Linking it to the logged-in user!
+      user: req.user.id,
       specialty,
       experience,
-      consultationFee
+      consultationFee,
+      clinicAddress 
     });
 
     res.status(201).json({ success: true, data: doctor });

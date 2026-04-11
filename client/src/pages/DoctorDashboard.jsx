@@ -14,7 +14,7 @@ const DoctorDashboard = () => {
   const [error, setError] = useState(null);
 
   const [needsProfile, setNeedsProfile] = useState(false);
-  const [profileData, setProfileData] = useState({ specialty: 'General Practice', experience: '', consultationFee: '' });
+  const [profileData, setProfileData] = useState({ specialty: 'General Practice', experience: '', consultationFee: '', clinicAddress: '' });
   const [savingProfile, setSavingProfile] = useState(false);
 
   useEffect(() => {
@@ -140,6 +140,17 @@ const DoctorDashboard = () => {
                     placeholder="e.g. 100"
                     className="w-full px-4 py-3 bg-gray-50 border-none rounded-xl text-brand-dark focus:ring-2 focus:ring-brand-blue outline-none"
                     onChange={(e) => setProfileData({...profileData, consultationFee: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Clinic Address</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="123 Medical Plaza, Suite 400"
+                    className="w-full px-4 py-3 bg-gray-50 border-none rounded-xl text-brand-dark focus:ring-2 focus:ring-brand-blue outline-none"
+                    onChange={(e) => setProfileData({...profileData, clinicAddress: e.target.value})}
                   />
                 </div>
 

@@ -18,6 +18,10 @@ const doctorSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please add consultation fee']
   },
+  clinicAddress: {
+    type: String,
+    required: [true, 'Please add a clinic address or write Telehealth']
+  },
   availability: [
     {
       day: { 

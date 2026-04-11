@@ -1,55 +1,106 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Activity, LogOut, User as UserIcon } from 'lucide-react';
-import Button from '../components/Button';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, Activity, LogOut, User as UserIcon, ArrowUpRight } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const location = useLocation();
+
+  // Helper function to check if a link is active
+  const isActive = (path) => location.pathname === path;
+
+  // The links to display in the center pill
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Specialties', path: '/specialties' },
+    { name: 'Doctors', path: '/doctors' },
+    { name: 'About', path: '/about' },
+  ];
 
   return (
-    <nav className="w-full bg-white py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
-      <Link to="/" className="text-xl font-bold tracking-tight text-brand-dark flex items-center gap-2 group">
-        {/* Replaced the black circle with a styled icon */}
-        <div className="bg-brand-blue/20 p-1.5 rounded-xl text-brand-blue group-hover:scale-110 transition-transform duration-300">
-          <Activity size={22} strokeWidth={2.5} />
+    <nav className="w-full bg-white/80 backdrop-blur-md py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50 border-b border-gray-100">
+      
+      {/* 1. Left: Logo */}
+      <Link to="/" className="text-xl font-bold tracking-tight text-brand-dark flex items-center gap-2 group w-1/4">
+        <div className="bg-brand-dark p-1.5 rounded-full text-white group-hover:scale-110 transition-transform duration-300">
+          <Activity size={18} strokeWidth={3} />
         </div>
         CareConnect
       </Link>
 
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <Link to="/doctors" className="hover:text-brand-dark transition-colors">Find a Doctor</Link>
-        <Link to="/specialties" className="hover:text-brand-dark transition-colors">Specialties</Link>
-        <Link to="/about" className="hover:text-brand-dark transition-colors">About Us</Link>
+      {/* 2. Center: The Floating Pill Navigation */}
+      <div className="hidden md:flex items-center bg-[#F4F5F7] p-1.5 rounded-full border border-gray-100">
+        {navLinks.map((link) => (
+          <Link 
+            key={link.name}
+            to={link.path} 
+            className={`
+              px-5 py-2 rounded-full text-m font-semibold transition-all duration-300
+              ${isActive(link.path) 
+                ? 'bg-white text-brand-dark shadow-sm' 
+                : 'text-gray-500 hover:text-brand-dark hover:bg-gray-200/50'
+              }
+            `}
+          >
+            {link.name}
+          </Link>
+        ))}
       </div>
 
-      <div className="hidden md:flex items-center gap-4">
+      {/* 3. Right: Auth Actions */}
+      <div className="hidden md:flex items-center justify-end gap-6 w-1/4">
         {user ? (
           <>
-            <span className="text-sm font-medium text-gray-500 mr-2">Hello, {user.name}</span>
-            <Link to={user.role === 'doctor' ? "/doctor-dashboard" : "/dashboard"}>
-              <Button variant="outline" className="text-sm py-2">
-                <UserIcon size={16} /> Dashboard
-              </Button>
+            {/* User Info Pill */}
+            <div className="hidden lg:flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
+              <UserIcon size={16} className="text-gray-400" />
+              <span className="text-m font-semibold text-gray-600">{user.name.split(' ')[0]}</span>
+            </div>
+
+            {/* Dashboard Button (Matching the screenshot's nested pill style) */}
+            <Link 
+              to={user.role === 'doctor' ? "/doctor-dashboard" : "/dashboard"}
+              className="flex items-center gap-3 bg-brand-dark text-white pl-6 pr-1.5 py-1.5 rounded-full hover:bg-gray-800 transition-colors group"
+            >
+              <span className="text-sm font-semibold">Dashboard</span>
+              <div className="bg-white text-brand-dark w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                <ArrowUpRight size={16} />
+              </div>
             </Link>
-            <button onClick={logout} className="text-gray-400 hover:text-red-500 transition-colors p-2">
+
+            {/* Logout Icon Button */}
+            <button 
+              onClick={logout} 
+              className="w-11 h-11 flex items-center justify-center bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors border border-gray-100"
+              title="Log out"
+            >
               <LogOut size={18} />
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">Log in</Link>
-            <Link to="/register">
-              <Button variant="primary" className="text-sm py-2.5 px-6">
-                Sign up
-              </Button>
+            <Link to="/login" className="text-sm font-semibold text-gray-600 hover:text-brand-dark transition-colors">
+              Log in
+            </Link>
+            
+            {/* Sign Up Button (Matching the screenshot's nested pill style) */}
+            <Link 
+              to="/register"
+              className="flex items-center gap-3 bg-brand-dark text-white pl-6 pr-1.5 py-1.5 rounded-full hover:bg-gray-800 transition-colors group"
+            >
+              <span className="text-sm font-semibold">Sign up</span>
+              <div className="bg-white text-brand-dark w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                <ArrowUpRight size={16} />
+              </div>
             </Link>
           </>
         )}
       </div>
 
-      <button className="md:hidden text-brand-dark">
-        <Menu size={24} />
+      {/* Mobile Menu Button */}
+      <button className="md:hidden text-brand-dark p-2 bg-gray-50 rounded-full">
+        <Menu size={20} />
       </button>
     </nav>
   );
