@@ -10,6 +10,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DoctorDashboard from './pages/DoctorDashboard';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
           </Routes>
+          <Footer />
         </div>
       </AuthProvider>
     </Router>

@@ -6,10 +6,7 @@ const About = () => {
   return (
     <div className="bg-white pb-24 font-sans text-brand-dark">
       
-      {/* SECTION 1: Hero */}
       <section className="px-6 md:px-12 pt-12 pb-20 max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16">
-        
-        {/* Left: Typography */}
         <div className="w-full lg:w-1/2 z-10">
           <h1 className="text-6xl md:text-[5.5rem] font-medium tracking-tight text-brand-dark leading-[1.05] mb-8">
             Putting your <br />
@@ -17,17 +14,16 @@ const About = () => {
             in your hands.
           </h1>
           <p className="text-lg text-gray-500 max-w-md leading-relaxed mb-10">
-            We built CareConnect because we believe accessing quality healthcare should be as seamless as ordering your morning coffee. No waiting rooms, no endless phone calls. Just you and your health, simplified.
+            We built MedEase because we believe accessing quality healthcare should be as seamless as ordering your morning coffee. No waiting rooms, no endless phone calls. Just you and your health, simplified.
           </p>
           <Link 
             to="/register" 
             className="inline-flex items-center gap-3 bg-[#1A252A] text-white px-8 py-4 rounded-full hover:bg-brand-blue transition-colors duration-300 font-medium group"
           >
-            Join CareConnect
+            Join MedEase
             <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
 
-          {/* Trusted By / Faint Logos Row */}
           <div className="flex items-center gap-6 mt-20 opacity-40 grayscale pointer-events-none">
             <span className="text-xl font-bold font-serif">Aetna</span>
             <span className="text-xl font-bold tracking-tighter">Cigna</span>
@@ -36,7 +32,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Right: Large Hero Image Area */}
         <div className="w-full lg:w-1/2 relative h-[600px] md:h-[700px] rounded-[2.5rem] bg-gray-100 overflow-hidden flex items-center justify-center">
           <img 
             src="/doctor1.png" 
@@ -44,10 +39,8 @@ const About = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          {/* Optional: A subtle gradient overlay to ensure the floating card text remains readable if the image is bright */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 
-          {/* Glassmorphism Floating Card */}
           <div className="absolute top-1/4 -left-6 md:left-[-2rem] bg-white/70 backdrop-blur-md border border-white/50 p-5 rounded-2xl shadow-xl w-64 transform -rotate-2">
             <div className="flex items-center gap-2 mb-3">
               <div className="flex gap-1">
@@ -67,16 +60,13 @@ const About = () => {
         </div>
       </section>
 
-      {/* SECTION 2: The Magazine Statement Area */}
       <section className="px-6 md:px-12 pt-20 pb-32 max-w-[1400px] mx-auto">
         
-        {/* Section Divider / Label */}
         <div className="flex justify-between items-center border-t border-gray-200 pt-6 mb-16 text-sm font-medium text-brand-dark">
           <span>About Us</span>
           <span>(01)</span>
         </div>
 
-        {/* The Massive Centered Text with Floating Images */}
         <div className="relative max-w-5xl mx-auto text-center py-12 md:py-24">
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-[#1A252A] leading-[1.2] tracking-tight relative z-10">
@@ -84,8 +74,6 @@ const About = () => {
             built by technologists and medical professionals dedicated to bridging the gap between <span className="font-serif italic font-light text-brand-blue">patients and care.</span>
           </h2>
 
-          {/* Floating Image 1 (Left) */}
-          {/* Ensure an image named 'clinic-team.jpg' exists in your public folder */}
           <div className="hidden md:flex absolute top-0 left-[-5%] w-48 h-48 bg-gray-200 rounded-3xl shadow-lg -rotate-6 items-center justify-center overflow-hidden z-0">
              <img 
                src="/doctor2.png" 
@@ -94,8 +82,6 @@ const About = () => {
              />
           </div>
 
-          {/* Floating Image 2 (Right/Bottom) */}
-          {/* Ensure an image named 'patient-care.jpg' exists in your public folder */}
           <div className="hidden md:flex absolute -bottom-24 right-0 w-64 h-48 bg-gray-200 rounded-3xl shadow-lg rotate-3 items-center justify-center overflow-hidden z-20">
              <div className="absolute top-6 -left-6 w-24 h-24 border-[1px] border-dashed border-white/50 rounded-full flex items-center justify-center bg-brand-blue/90 backdrop-blur-sm z-30">
                <div className="text-[10px] uppercase tracking-widest text-white font-bold rotate-[-30deg]">Verified</div>
@@ -109,7 +95,6 @@ const About = () => {
 
         </div>
 
-        {/* Stats Row */}
         <div className="flex flex-col md:flex-row justify-between items-end mt-12 gap-8 relative z-10">
           
           <div className="flex gap-12 md:gap-20">
@@ -148,7 +133,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* SECTION 3: Core Values Grid */}
       <section className="px-6 md:px-12 pb-24 max-w-[1400px] mx-auto">
         
         <div className="flex justify-between items-center border-t border-gray-200 pt-6 mb-16 text-m font-medium text-brand-dark">

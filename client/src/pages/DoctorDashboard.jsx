@@ -51,7 +51,6 @@ const DoctorDashboard = () => {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       await axios.post('/api/doctors/profile', profileData, config);
       
-      // Success! Turn off the form and reload the page to fetch the (now empty) schedule
       setNeedsProfile(false);
       window.location.reload(); 
     } catch (err) {

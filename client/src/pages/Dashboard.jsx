@@ -13,7 +13,6 @@ const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // New state for the Cancel Modal
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
@@ -42,7 +41,6 @@ const Dashboard = () => {
     fetchAppointments();
   }, [user, navigate]);
 
-  // The actual cancel function that hits our new backend route
   const handleCancelAppointment = async () => {
     if (!appointmentToCancel) return;
     setCancelLoading(true);
@@ -51,10 +49,8 @@ const Dashboard = () => {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       await axios.delete(`/api/appointments/${appointmentToCancel}`, config);
       
-      // Instantly remove it from the UI without reloading the page
       setAppointments(appointments.filter(apt => apt._id !== appointmentToCancel));
       
-      // Close the modal
       setCancelModalOpen(false);
       setAppointmentToCancel(null);
     } catch (error) {
@@ -70,7 +66,6 @@ const Dashboard = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Function to open the cancel modal
   const promptCancel = (id) => {
     setAppointmentToCancel(id);
     setCancelModalOpen(true);
@@ -79,7 +74,6 @@ const Dashboard = () => {
   return (
     <div className="min-h-[calc(100vh-80px)] bg-[#F8F9FA] pb-20 relative">
       
-      {/* --- NEW CANCEL CONFIRMATION MODAL --- */}
       {cancelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-brand-dark/30 backdrop-blur-sm" onClick={() => setCancelModalOpen(false)}></div>
@@ -103,7 +97,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Header */}
       <div className="bg-brand-dark text-white pt-16 pb-24 px-6 md:px-12">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-2">Welcome back, {user?.name?.split(' ')[0]}</h1>
@@ -111,7 +104,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="max-w-5xl mx-auto px-6 md:px-12 -mt-12">
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-10 min-h-[400px]">
           

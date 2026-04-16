@@ -26,7 +26,7 @@ const Navbar = () => {
         <div className="bg-brand-dark p-1.5 rounded-full text-white group-hover:scale-110 transition-transform duration-300">
           <Activity size={18} strokeWidth={3} />
         </div>
-        CareConnect
+        MedEase
       </Link>
 
       {/* 2. Center: The Floating Pill Navigation */}

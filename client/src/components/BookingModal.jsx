@@ -4,6 +4,7 @@ import Button from './Button';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import PaymentModal from './PaymentModal';
 
 const MOCK_TIME_SLOTS = ['09:00 AM', '10:00 AM', '11:30 AM', '02:00 PM', '03:30 PM', '04:00 PM'];
 
@@ -14,6 +15,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   // Pull the logged-in user from global state
   const { user } = useContext(AuthContext);
@@ -21,47 +23,52 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!user) {
       navigate('/login');
       return;
     }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const appointmentData = {
-        doctorId: doctor._id, // Using the real MongoDB ID
-        date: selectedDate,
-        timeSlot: selectedTime,
-        reasonForVisit: reason
-      };
-
-      await axios.post('/api/appointments', appointmentData, config);
-      
-      setIsSuccess(true);
-
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to book appointment');
-    } finally {
-      setLoading(false);
+    
+    if (!selectedDate || !selectedTime) {
+      setError('Please select a date and time.');
+      return;
     }
+
+    setShowPayment(true);
   };
 
   const handleCloseModal = () => {
     setSelectedDate('');
     setSelectedTime('');
     setReason('');
-    setIsSuccess(false); // Reset success state
+    setIsSuccess(false);
+    setShowPayment(false);
     onClose();
+  };
+
+  const finalizeBooking = async () => {
+    setShowPayment(false); // Hide payment screen
+    setLoading(true);
+    setError(null);
+
+    try {
+      const config = { headers: { Authorization: `Bearer ${user.token}` } };
+      const appointmentData = {
+        doctorId: doctor._id,
+        date: selectedDate,
+        timeSlot: selectedTime,
+        reasonForVisit: reason
+      };
+
+      await axios.post('/api/appointments', appointmentData, config);
+      setIsSuccess(true); // Show your existing green checkmark screen
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to book appointment');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -158,6 +165,13 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
         </>
         )}
       </div>
+      <PaymentModal 
+        isOpen={showPayment}
+        onClose={() => setShowPayment(false)}
+        onSuccess={finalizeBooking}
+        amount={doctor?.consultationFee || 100}
+        doctorName={doctor?.user?.name || 'Doctor'}
+      />
     </div>
   );
 };
