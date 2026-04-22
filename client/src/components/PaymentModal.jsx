@@ -11,11 +11,9 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, amount, doctorName }) => {
   const handleFakePayment = (e) => {
     e.preventDefault();
     setIsProcessing(true);
-
-    // Simulate network delay for the transaction (2 seconds)
     setTimeout(() => {
       setIsProcessing(false);
-      onSuccess(); // Tell the parent component the payment "succeeded"
+      onSuccess(); 
     }, 2000);
   };
 
@@ -24,8 +22,6 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, amount, doctorName }) => {
       <div className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm" onClick={!isProcessing ? onClose : null}></div>
 
       <div className="bg-white rounded-3xl w-full max-w-md p-6 md:p-8 relative z-10 shadow-2xl animate-in fade-in zoom-in duration-200">
-        
-        {/* Header */}
         {!isProcessing && (
           <button onClick={onClose} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors">
             <X size={20} />
@@ -40,13 +36,11 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, amount, doctorName }) => {
           <p className="text-sm text-gray-500">Consultation with {doctorName}</p>
         </div>
 
-        {/* Amount Display */}
         <div className="bg-gray-50 rounded-2xl p-6 mb-6 text-center border border-gray-100">
           <p className="text-sm font-medium text-gray-500 mb-1">Total Due</p>
           <p className="text-4xl font-bold text-brand-dark">${amount}</p>
         </div>
 
-        {/* The Mock Form */}
         <form onSubmit={handleFakePayment} className="space-y-4">
           
           <div>

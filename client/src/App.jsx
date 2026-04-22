@@ -15,7 +15,6 @@ import Footer from './components/Footer';
 function App() {
   return (
     <Router>
-      {/* Wrap everything inside the AuthProvider */}
       <AuthProvider>
         <div className="min-h-screen bg-gray-50 font-sans text-brand-dark">
           <Navbar />

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Loader2, ArrowUpRight } from 'lucide-react';
 
-// --- ADDED SOFT TINTED THEMES ---
 const BENTO_SPECIALTIES = [
   {
     name: 'General Practice',
@@ -109,7 +108,6 @@ const Specialties = () => {
                     hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group min-h-[320px]
                   `}
                 >
-                  {/* Subtle Decorative Elements using the inherited tint color */}
                   {spec.decoration === 'ring' && (
                     <div className="absolute -right-12 -top-12 w-48 h-48 border-[30px] border-rose-500/5 rounded-full pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
                   )}
@@ -117,7 +115,6 @@ const Specialties = () => {
                     <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/10 transition-colors duration-700"></div>
                   )}
 
-                  {/* Bottom: Content */}
                   <div className="relative z-10">
                     <h2 className="text-2xl font-bold text-brand-dark mb-3 tracking-tight">
                       {spec.name}

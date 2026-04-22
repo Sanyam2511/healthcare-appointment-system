@@ -5,11 +5,7 @@ import { Phone, MapPin, Mail, Sparkles, ArrowRight } from 'lucide-react';
 const Footer = () => {
   return (
     <footer className="bg-[#FAF9F5] pt-24 pb-8 px-6 md:px-12 relative overflow-hidden">
-
-      {/* Main Footer Links Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 lg:gap-6 mb-16 relative z-10 pt-2">
-        
-        {/* Contact Column (Takes up 2 columns of space on large screens) */}
         <div className="lg:col-span-2">
           <h4 className="text-xl font-bold text-[#1A252A] mb-6">Contact</h4>
           <ul className="space-y-6">
@@ -36,7 +32,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Navigate Column */}
         <div>
           <h4 className="text-lg font-bold text-[#1A252A] mb-6">Navigate</h4>
           <ul className="space-y-4 text-sm text-gray-500 font-medium">
@@ -48,7 +43,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Solution Column */}
         <div>
           <h4 className="text-lg font-bold text-[#1A252A] mb-6">Solution</h4>
           <ul className="space-y-4 text-sm text-gray-500 font-medium">
@@ -59,7 +53,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Discover Column */}
         <div>
           <h4 className="text-lg font-bold text-[#1A252A] mb-6">Discover</h4>
           <ul className="space-y-4 text-sm text-gray-500 font-medium">
@@ -71,7 +64,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Follow Us Column */}
         <div>
           <h4 className="text-lg font-bold text-[#1A252A] mb-6">Follow Us</h4>
           <ul className="space-y-4 text-sm text-gray-500 font-medium">
@@ -84,7 +76,6 @@ const Footer = () => {
 
       </div>
 
-      {/* Bottom Copyright Bar */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-gray-500 font-medium relative z-10">
         <p>©Copyright MedEase.com All rights reserved. 2026</p>
         <div className="flex gap-6">
@@ -93,7 +84,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Colorful Gradient Bar */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 opacity-60"></div>
     </footer>
   );

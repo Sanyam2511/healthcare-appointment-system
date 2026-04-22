@@ -6,8 +6,6 @@ import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  
-  // Pull our global logic from Context
   const { loginUser, loading, error } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
@@ -23,7 +21,6 @@ const Login = () => {
           <p className="text-gray-500">Enter your details to access your account.</p>
         </div>
 
-        {/* Display Errors if they exist */}
         {error && (
           <div className="bg-red-50 text-red-500 p-4 rounded-2xl mb-6 flex items-center gap-2 text-sm font-medium">
             <AlertCircle size={18} /> {error}

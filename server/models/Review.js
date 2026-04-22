@@ -28,7 +28,6 @@ const reviewSchema = new mongoose.Schema({
   }
 });
 
-// Prevent a user from leaving more than one review per doctor
 reviewSchema.index({ doctor: 1, patient: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

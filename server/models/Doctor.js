@@ -36,7 +36,6 @@ const doctorSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  // --- NEW FIELDS FOR REVIEWS ---
   averageRating: {
     type: Number,
     default: 0

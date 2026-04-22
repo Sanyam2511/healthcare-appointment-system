@@ -17,7 +17,6 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
 
-  // Pull the logged-in user from global state
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -49,7 +48,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
   };
 
   const finalizeBooking = async () => {
-    setShowPayment(false); // Hide payment screen
+    setShowPayment(false);
     setLoading(true);
     setError(null);
 
@@ -63,7 +62,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
       };
 
       await axios.post('/api/appointments', appointmentData, config);
-      setIsSuccess(true); // Show your existing green checkmark screen
+      setIsSuccess(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to book appointment');
     } finally {
@@ -81,7 +80,6 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
         </button>
 
         {isSuccess ? (
-          /* --- THE NEW SUCCESS SCREEN --- */
           <div className="text-center py-8">
             <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 animate-in zoom-in duration-500">
               <CheckCircle size={40} />

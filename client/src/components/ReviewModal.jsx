@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { X, Star, AlertCircle, CheckCircle } from 'lucide-react'; // <-- CheckCircle imported
+import { X, Star, AlertCircle, CheckCircle } from 'lucide-react';
 import Button from './Button';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
@@ -10,7 +10,7 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false); // <-- New success state
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const { user } = useContext(AuthContext);
 
@@ -34,11 +34,7 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
       const config = {
         headers: { Authorization: `Bearer ${user.token}` },
       };
-
-      // Hit our new backend route
       await axios.post(`/api/doctors/${doctorId}/reviews`, { rating, comment }, config);
-      
-      // Trigger the success UI instead of an alert!
       setIsSuccess(true);
       
     } catch (err) {
@@ -53,7 +49,7 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
     setHoverValue(0);
     setComment('');
     setError(null);
-    setIsSuccess(false); // Reset success state when closing
+    setIsSuccess(false);
     onClose();
   };
 
@@ -68,7 +64,6 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
         </button>
 
         {isSuccess ? (
-          /* --- THE NEW SUCCESS SCREEN --- */
           <div className="text-center py-8">
             <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 animate-in zoom-in duration-500">
               <CheckCircle size={40} />
@@ -82,7 +77,6 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
             </Button>
           </div>
         ) : (
-          /* --- THE REVIEW FORM --- */
           <>
             <h2 className="text-2xl font-bold text-brand-dark mb-1">Rate Your Visit</h2>
             <p className="text-sm text-gray-500 mb-6 font-medium">with {doctorName}</p>
@@ -94,8 +88,6 @@ const ReviewModal = ({ isOpen, onClose, appointment }) => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* Interactive Star Rating */}
               <div className="flex flex-col items-center mb-4">
                 <p className="text-sm font-semibold text-gray-700 mb-3">How was your experience?</p>
                 <div className="flex gap-2">

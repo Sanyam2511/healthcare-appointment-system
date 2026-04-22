@@ -131,8 +131,6 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {appointments.map((apt) => (
                 <div key={apt._id} className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand-blue hover:shadow-md transition-all relative group">
-                  
-                  {/* Cancel Button (Appears on hover or top right) */}
                   <button 
                     onClick={() => promptCancel(apt._id)}
                     className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors tooltip-trigger"

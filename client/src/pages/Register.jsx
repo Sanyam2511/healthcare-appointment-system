@@ -1,18 +1,15 @@
-import React, { useState, useContext } from 'react'; // <-- Added useContext
+import React, { useState, useContext } from 'react'; 
 import { Link } from 'react-router-dom';
-import { User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'; // <-- Added AlertCircle
+import { User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'; 
 import Button from '../components/Button';
-import { AuthContext } from '../context/AuthContext'; // <-- Added this import
+import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'patient' });
-  
-  // Pull our global logic from Context
   const { registerUser, loading, error } = useContext(AuthContext); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Pass the form data directly to the backend via our Context function
     registerUser(formData); 
   };
 
@@ -31,8 +28,6 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Role Selection Tabs */}
           <div className="flex p-1 bg-gray-50 rounded-2xl mb-6">
             <button
               type="button"

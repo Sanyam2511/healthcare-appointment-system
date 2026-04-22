@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Check if user is already logged in (checking local storage for a token)
   useEffect(() => {
     const userInfo = localStorage.getItem('user');
     if (userInfo) {
@@ -18,22 +17,19 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Register Function
   const registerUser = async (userData) => {
     setLoading(true);
     setError(null);
     try {
-      // Notice we just use /api because of our Vite proxy!
       const response = await axios.post('/api/auth/register', userData);
       
       const { token, user } = response.data;
       const sessionData = { token, ...user };
 
-      // Save to state and local storage
       setUser(sessionData);
       localStorage.setItem('user', JSON.stringify(sessionData));
       
-      navigate('/'); // Redirect to home page after success
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -41,7 +37,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Add this right below the registerUser function
   const loginUser = async (userData) => {
     setLoading(true);
     setError(null);
@@ -62,7 +57,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout Function
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');

@@ -94,7 +94,6 @@ const DoctorDashboard = () => {
               <Loader2 className="animate-spin text-brand-blue" size={48} />
             </div>
           ) : needsProfile ? (
-            /* --- THE NEW ONBOARDING FORM --- */
             <div className="max-w-md mx-auto py-8">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-brand-dark mb-2">Complete Your Profile</h3>
@@ -180,7 +179,6 @@ const DoctorDashboard = () => {
                     </div>
                   </div>
 
-                  {/* Reason & Action */}
                   <div className="flex-1 md:border-l md:border-gray-100 md:pl-6">
                     <p className="text-sm text-gray-500 mb-4 line-clamp-3">
                       <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}

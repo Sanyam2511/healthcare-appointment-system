@@ -4,7 +4,6 @@ import Button from '../components/Button';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-// --- EXPANDED MOCK DATA (NOW WITH IMAGES) ---
 const SPECIALTIES = [
   { 
     name: 'Cardiology', 
@@ -83,8 +82,6 @@ const Home = () => {
 
   return (
     <div className="bg-white pb-12 overflow-x-hidden">
-      
-      {/* INJECTED CSS FOR INFINITE MARQUEE */}
       <style>
         {`
           @keyframes marquee {
@@ -99,8 +96,6 @@ const Home = () => {
           }
         `}
       </style>
-
-      {/* --- SECTION 1: The Hero --- */}
       <section className="relative pt-20 pb-16 px-6 md:px-12 overflow-hidden bg-gradient-to-r from-white via-[#F0F8FA] to-[#E2F0F5]">
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center relative z-10">
           
@@ -191,7 +186,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- SECTION 2: Browse by Specialty (Infinite Carousel with Images) --- */}
       <section className="py-24 bg-[#F2F8FA] overflow-hidden border-y border-brand-blue/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
@@ -205,9 +199,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Full Bleed Marquee Container */}
         <div className="relative flex overflow-x-hidden w-full">
-          {/* Duplicated array for seamless loop */}
           <div className="flex gap-6 w-max animate-marquee px-3">
             {[...SPECIALTIES, ...SPECIALTIES].map((spec, index) => (
               <div 
@@ -215,24 +207,20 @@ const Home = () => {
                 className="w-[320px] md:w-[360px] shrink-0 bg-white border border-white shadow-sm rounded-[2.5rem] hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer group relative flex flex-col min-h-[380px] overflow-hidden"
               >
                 
-                {/* --- IMAGE SECTION --- */}
                 <div className="h-48 w-full relative overflow-hidden bg-[#EBF4F6]">
                   <img 
                     src={spec.image} 
                     alt={spec.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     onError={(e) => {
-                       // Fallback placeholder if you haven't uploaded the image yet!
                        e.target.src = `https://via.placeholder.com/400x300/E2F0F5/2A5C66?text=${spec.name}`;
                     }}
                   />
-                  {/* Floating Action Button over image */}
                   <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-sm flex items-center justify-center text-brand-dark group-hover:bg-[#1A252A] group-hover:text-white transition-all">
                     <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                 </div>
 
-                {/* --- BOTTOM TEXT SECTION --- */}
                 <div className="p-6 md:p-8 flex flex-col flex-1 bg-gradient-to-b from-white to-[#FAFCFC]">
                   <h3 className="text-2xl font-bold text-[#1A252A] mb-2 tracking-tight">{spec.name}</h3>
                   <p className="text-gray-500 text-sm mb-6 leading-relaxed line-clamp-2">{spec.desc}</p>
@@ -256,7 +244,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- SECTION 3: Featured Doctors --- */}
       <section className="py-16 px-6 md:px-12 bg-[#1A252A] overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
           
@@ -326,15 +313,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- SECTION 4: How it Works (New Bento Box Design) --- */}
       <section className="relative py-24 px-6 md:px-12 overflow-hidden border-t border-brand-blue/5 bg-white">
         
         <div className="max-w-7xl mx-auto relative z-10">
-          
-          {/* Top Grid: 4 Feature Cards (NO Background image behind these) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            
-            {/* Card 1 */}
             <div className="bg-[#FAF9F5] p-8 rounded-3xl flex flex-col items-center text-center border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-xl bg-[#E8F2EF] flex items-center justify-center text-[#2A5C66] mb-6">
                 <UserCheck size={24} />
@@ -343,7 +325,6 @@ const Home = () => {
               <p className="text-sm text-gray-500 leading-relaxed">Search by specialty, condition, or name to find the perfect match.</p>
             </div>
 
-            {/* Card 2 */}
             <div className="bg-[#FAF9F5] p-8 rounded-3xl flex flex-col items-center text-center border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-xl bg-[#E8F2EF] flex items-center justify-center text-[#2A5C66] mb-6">
                 <Clock size={24} />
@@ -352,7 +333,6 @@ const Home = () => {
               <p className="text-sm text-gray-500 leading-relaxed">Healthcare support whenever you need it, day or night.</p>
             </div>
 
-            {/* Card 3 */}
             <div className="bg-[#FAF9F5] p-8 rounded-3xl flex flex-col items-center text-center border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-xl bg-[#E8F2EF] flex items-center justify-center text-[#2A5C66] mb-6">
                 <Lock size={24} />
@@ -361,7 +341,6 @@ const Home = () => {
               <p className="text-sm text-gray-500 leading-relaxed">Your medical data and personal history are always protected.</p>
             </div>
 
-            {/* Card 4 */}
             <div className="bg-[#FAF9F5] p-8 rounded-3xl flex flex-col items-center text-center border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-xl bg-[#E8F2EF] flex items-center justify-center text-[#2A5C66] mb-6">
                 <Calendar size={24} />

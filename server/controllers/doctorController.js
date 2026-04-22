@@ -25,7 +25,6 @@ exports.getDoctors = async (req, res) => {
 // @access  Public
 exports.seedDoctors = async (req, res) => {
   try {
-    // 1. Create a User for the doctor
     const testUser = await User.create({
       name: 'Dr. Sarah Jenkins',
       email: `dr.jenkins${Date.now()}@example.com`,
@@ -33,7 +32,6 @@ exports.seedDoctors = async (req, res) => {
       role: 'doctor'
     });
 
-    // 2. Create the linked Doctor profile
     const testDoctor = await Doctor.create({
       user: testUser._id,
       specialty: 'Cardiology',
@@ -56,7 +54,6 @@ exports.seedDoctors = async (req, res) => {
 // @access  Private
 exports.createProfile = async (req, res) => {
   try {
-    // 1. Add clinicAddress to the destructured body
     const { specialty, experience, consultationFee, clinicAddress } = req.body;
 
     let doctor = await Doctor.findOne({ user: req.user.id });
@@ -65,7 +62,6 @@ exports.createProfile = async (req, res) => {
       return res.status(400).json({ message: 'Profile already exists.' });
     }
 
-    // 2. Add it to the creation payload
     doctor = await Doctor.create({
       user: req.user.id,
       specialty,
@@ -88,7 +84,6 @@ exports.addReview = async (req, res) => {
     const { rating, comment } = req.body;
     const doctorId = req.params.id;
 
-    // 1. Create the review
     const review = await Review.create({
       doctor: doctorId,
       patient: req.user.id,
@@ -96,7 +91,6 @@ exports.addReview = async (req, res) => {
       comment
     });
 
-    // 2. Calculate new average rating for the doctor
     const stats = await Review.aggregate([
       { $match: { doctor: new mongoose.Types.ObjectId(doctorId) } },
       {
@@ -108,7 +102,6 @@ exports.addReview = async (req, res) => {
       }
     ]);
 
-    // 3. Update the Doctor document
     await Doctor.findByIdAndUpdate(doctorId, {
       averageRating: stats[0].avgRating.toFixed(1),
       reviewCount: stats[0].nRating
