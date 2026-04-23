@@ -12,6 +12,7 @@ const DoctorDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [completingId, setCompletingId] = useState(null);
 
   const [needsProfile, setNeedsProfile] = useState(false);
   const [profileData, setProfileData] = useState({ specialty: 'General Practice', experience: '', consultationFee: '', clinicAddress: '' });
@@ -63,6 +64,20 @@ const DoctorDashboard = () => {
   const formatDate = (dateString) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const handleMarkCompleted = async (appointmentId) => {
+    setCompletingId(appointmentId);
+    try {
+      const config = { headers: { Authorization: `Bearer ${user.token}` } };
+      await axios.put(`/api/appointments/${appointmentId}/complete`, {}, config);
+      
+      setAppointments(appointments.filter(apt => apt._id !== appointmentId));
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to mark appointment as completed');
+    } finally {
+      setCompletingId(null);
+    }
   };
 
   return (
@@ -159,13 +174,13 @@ const DoctorDashboard = () => {
             </div>
           ) : error ? (
             <div className="text-center py-16 text-red-500 bg-red-50 rounded-2xl font-medium">{error}</div>
-          ) : appointments.length === 0 ? (
+          ) : appointments.filter(apt => apt.status !== 'completed').length === 0 ? (
             <div className="text-center py-16 text-gray-500 bg-gray-50 rounded-2xl font-medium">
               You have no upcoming appointments.
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">
-              {appointments.map((apt) => (
+              {appointments.filter(apt => apt.status !== 'completed').map((apt) => (
                 <div key={apt._id} className="bg-white rounded-2xl p-6 border border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-brand-blue hover:shadow-md transition-all">
                   <div className="flex-1">
                     <h3 className="font-bold text-xl text-brand-dark mb-1">
@@ -183,8 +198,14 @@ const DoctorDashboard = () => {
                     <p className="text-sm text-gray-500 mb-4 line-clamp-3">
                       <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}
                     </p>
-                    <Button variant="outline" className="w-full text-sm py-2">
-                      <CheckCircle2 size={16} className="mr-2" /> Mark Completed
+                    <Button 
+                      onClick={() => handleMarkCompleted(apt._id)}
+                      disabled={completingId === apt._id}
+                      variant="outline" 
+                      className="w-full text-sm py-2"
+                    >
+                      <CheckCircle2 size={16} className="mr-2" /> 
+                      {completingId === apt._id ? 'Marking...' : 'Mark Completed'}
                     </Button>
                   </div>
 

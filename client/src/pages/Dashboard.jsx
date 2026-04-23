@@ -118,7 +118,7 @@ const Dashboard = () => {
             <div className="flex justify-center items-center py-20">
               <Loader2 className="animate-spin text-brand-blue" size={48} />
             </div>
-          ) : appointments.length === 0 ? (
+          ) : appointments.filter(apt => apt.status !== 'completed').length === 0 && appointments.filter(apt => apt.status === 'completed').length === 0 ? (
             <div className="text-center py-16 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
               <Activity size={48} className="text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-brand-dark mb-2">No appointments yet</h3>
@@ -128,62 +128,95 @@ const Dashboard = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {appointments.map((apt) => (
-                <div key={apt._id} className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand-blue hover:shadow-md transition-all relative group">
-                  <button 
-                    onClick={() => promptCancel(apt._id)}
-                    className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors tooltip-trigger"
-                    title="Cancel Appointment"
-                  >
-                    <X size={20} />
-                  </button>
+            <>
+              {appointments.filter(apt => apt.status !== 'completed').length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                  {appointments.filter(apt => apt.status !== 'completed').map((apt) => (
+                    <div key={apt._id} className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand-blue hover:shadow-md transition-all relative group">
+                      <button 
+                        onClick={() => promptCancel(apt._id)}
+                        className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors tooltip-trigger"
+                        title="Cancel Appointment"
+                      >
+                        <X size={20} />
+                      </button>
 
-                  <div className="flex justify-between items-start mb-4 pr-8">
-                    <div>
-                      <h3 className="font-bold text-lg text-brand-dark">
-                        {apt.doctor?.user?.name || 'Doctor Unassigned'}
-                      </h3>
-                      <p className="text-brand-blue text-sm font-semibold">{apt.doctor?.specialty}</p>
+                      <div className="flex justify-between items-start mb-4 pr-8">
+                        <div>
+                          <h3 className="font-bold text-lg text-brand-dark">
+                            {apt.doctor?.user?.name || 'Doctor Unassigned'}
+                          </h3>
+                          <p className="text-brand-blue text-sm font-semibold">{apt.doctor?.specialty}</p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 mt-6">
+                        <div className="flex items-center gap-3 text-gray-600 text-sm">
+                          <Calendar size={16} className="text-gray-400" /> {formatDate(apt.date)}
+                        </div>
+                        <div className="flex items-center gap-3 text-gray-600 text-sm">
+                          <Clock size={16} className="text-gray-400" /> {apt.timeSlot}
+                        </div>
+                      </div>
+                      
+                      <div className="mt-6 pt-4 border-t border-gray-100 text-sm text-gray-500 line-clamp-2 bg-gray-50 p-3 rounded-xl">
+                        <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="space-y-3 mt-6">
-                    <div className="flex items-center gap-3 text-gray-600 text-sm">
-                      <Calendar size={16} className="text-gray-400" /> {formatDate(apt.date)}
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600 text-sm">
-                      <Clock size={16} className="text-gray-400" /> {apt.timeSlot}
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 pt-4 border-t border-gray-100 text-sm text-gray-500 line-clamp-2 bg-gray-50 p-3 rounded-xl">
-                    <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}
-                  </div>
-
-                  <Button 
-                    variant="outline" 
-                    className="w-full mt-4 justify-center py-2"
-                    onClick={() => {
-                      setAppointmentToReview(apt);
-                      setReviewModalOpen(true);
-                    }}
-                  >
-                    Rate your experience
-                  </Button>
-
-                  {apt.status === 'completed' && (
-                  <Button 
-                    variant="outline" 
-                    className="mt-4 w-full text-sm border-brand-blue text-brand-blue"
-                    onClick={() => handleOpenReviewModal(apt.doctor._id)}
-                  >
-                    Rate your experience
-                  </Button>
-                )}
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+
+              {appointments.filter(apt => apt.status === 'completed').length > 0 && (
+                <div>
+                  <h3 className="text-2xl font-bold text-brand-dark mb-6 mt-8 pt-8 border-t border-gray-100">Completed Appointments</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {appointments.filter(apt => apt.status === 'completed').map((apt) => (
+                      <div key={apt._id} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 relative group">
+                        <div className="absolute top-4 right-4 text-green-500">
+                          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+
+                        <div className="flex justify-between items-start mb-4 pr-8">
+                          <div>
+                            <h3 className="font-bold text-lg text-brand-dark">
+                              {apt.doctor?.user?.name || 'Doctor Unassigned'}
+                            </h3>
+                            <p className="text-green-700 text-sm font-semibold">{apt.doctor?.specialty}</p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3 mt-6">
+                          <div className="flex items-center gap-3 text-gray-600 text-sm">
+                            <Calendar size={16} className="text-green-600" /> {formatDate(apt.date)}
+                          </div>
+                          <div className="flex items-center gap-3 text-gray-600 text-sm">
+                            <Clock size={16} className="text-green-600" /> {apt.timeSlot}
+                          </div>
+                        </div>
+                        
+                        <div className="mt-6 pt-4 border-t border-green-200 text-sm text-gray-600 line-clamp-2 bg-white p-3 rounded-xl">
+                          <span className="font-semibold text-gray-700">Reason:</span> {apt.reasonForVisit}
+                        </div>
+
+                        <Button 
+                          variant="outline" 
+                          className="w-full mt-4 justify-center py-2 border-green-300 text-green-700 hover:bg-green-100"
+                          onClick={() => {
+                            setAppointmentToReview(apt);
+                            setReviewModalOpen(true);
+                          }}
+                        >
+                          Rate your experience
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
         </div>

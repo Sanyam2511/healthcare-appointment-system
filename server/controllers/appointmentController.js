@@ -97,3 +97,32 @@ exports.getDoctorAppointments = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Mark appointment as completed
+// @route   PUT /api/appointments/:id/complete
+// @access  Private
+exports.completeAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    const doctorProfile = await Doctor.findOne({ user: req.user.id });
+    if (!doctorProfile || appointment.doctor.toString() !== doctorProfile._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to complete this appointment' });
+    }
+
+    appointment.status = 'completed';
+    await appointment.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Appointment marked as completed',
+      data: appointment
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
